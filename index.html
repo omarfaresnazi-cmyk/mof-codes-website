@@ -70,7 +70,12 @@
   }
   .nav-inner{
     max-width:1180px; margin:0 auto; padding:18px 32px;
-    display:flex; align-items:center; justify-content:space-between; gap:24px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  @media (max-width:560px){
+    .nav-inner{ padding:14px 18px; }
+    .brand .name{ font-size:17px; }
+    .brand img{ width:32px; height:32px; }
   }
   .brand{ display:flex; align-items:center; gap:12px; }
   .brand img{ width:40px; height:40px; border-radius:50%; }
@@ -86,6 +91,38 @@
   }
   .nav-links a:hover{ color: var(--ivory); border-color: var(--gold); }
   @media (max-width:900px){ .nav-links{ display:none; } }
+
+  .nav-burger{
+    display:none; width:38px; height:38px; align-items:center; justify-content:center;
+    border:1px solid var(--hairline-soft); background:transparent; border-radius:2px;
+    flex-shrink:0;
+  }
+  .nav-burger svg{ width:19px; height:19px; color: var(--ivory); }
+  @media (max-width:900px){ .nav-burger{ display:flex; } }
+
+  .nav-actions{ display:flex; align-items:center; gap:10px; }
+  @media (max-width:900px){
+    .nav-actions .btn-gold{ display:none; }
+  }
+  @media (max-width:560px){
+    #langSwitch button{ padding:6px 8px !important; font-size:11px !important; }
+  }
+
+  .mobile-menu{
+    display:none; position:fixed; inset:0; z-index:100;
+    background: rgba(11,11,13,0.98); backdrop-filter: blur(6px);
+    flex-direction:column; padding:24px;
+  }
+  .mobile-menu.open{ display:flex; }
+  .mobile-menu-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:40px; }
+  .mobile-menu-close{ width:38px; height:38px; border:1px solid var(--hairline-soft); border-radius:2px; background:transparent; display:flex; align-items:center; justify-content:center; }
+  .mobile-menu-close svg{ width:18px; height:18px; color: var(--ivory); }
+  .mobile-menu ul{ list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .mobile-menu ul li a{
+    display:block; padding:18px 4px; font-family:'Cormorant Garamond', serif;
+    font-size:26px; font-weight:600; color: var(--ivory); border-bottom:1px solid var(--hairline-soft);
+  }
+  .mobile-menu .btn-gold{ margin-top:32px; justify-content:center; width:100%; }
 
   .btn{
     display:inline-flex; align-items:center; gap:8px;
@@ -107,6 +144,7 @@
 
   /* ---------- Hero ---------- */
   .hero{ position:relative; z-index:1; padding:96px 0 80px; }
+  @media (max-width:640px){ .hero{ padding:52px 0 48px; } }
   .hero-grid{ display:grid; grid-template-columns: 1.15fr 0.85fr; gap:56px; align-items:center; }
   @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
 
@@ -150,6 +188,7 @@
   /* ---------- Section shell ---------- */
   section{ position:relative; z-index:1; }
   .section-pad{ padding:88px 0; }
+  @media (max-width:640px){ .section-pad{ padding:52px 0; } }
   .section-head{ max-width:620px; margin-bottom:56px; }
   .section-head .tag{ color: var(--gold-light); font-size:14px; font-weight:600; margin-bottom:14px; }
   .section-head h2{
@@ -209,6 +248,14 @@
   .work-info h3{ font-family:'Cormorant Garamond', serif; font-size:22px; font-weight:600; margin-bottom:6px; }
   .work-info p{ color: var(--muted); font-size:14px; }
 
+  .work-category{ margin-bottom:48px; }
+  .work-category:last-child{ margin-bottom:0; }
+  .work-category-title{
+    font-family:'Cormorant Garamond', serif; font-size:24px; font-weight:600;
+    color: var(--gold-light); margin-bottom:20px;
+    padding-bottom:10px; border-bottom:1px solid var(--hairline-soft);
+  }
+
   /* mockup color themes */
   .mock-resto{ background: linear-gradient(135deg, #2a1810, #3d2414); }
   .mock-mode{ background: linear-gradient(135deg, #1a1416, #2b1a1e); }
@@ -216,8 +263,8 @@
   .mock-sante{ background: linear-gradient(135deg, #131c17, #1c2b22); }
 
   /* ---------- Pricing ---------- */
-  .pricing-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; }
-  @media (max-width:900px){ .pricing-grid{ grid-template-columns:1fr; } }
+  .pricing-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:24px; }
+  @media (max-width:640px){ .pricing-grid{ grid-template-columns:1fr; } }
   .price-card{
     border:1px solid var(--hairline-soft); padding:36px 30px;
     display:flex; flex-direction:column;
@@ -301,9 +348,33 @@
       <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
     </ul>
     <a class="btn btn-gold" href="#contact" data-i18n="btn_devis">Demander un devis</a>
-    <button id="langToggle" class="btn btn-line" style="margin-inline-start:14px;" aria-label="Changer de langue">FR</button>
+    <div id="langSwitch" style="display:flex; gap:6px; margin-inline-start:14px; border:1px solid var(--hairline); border-radius:2px; padding:3px;">
+      <button class="lang-opt" data-lang="fr" style="padding:7px 12px; font-size:12.5px; font-weight:700; border-radius:1px; color:var(--muted); background:transparent;">FR</button>
+      <button class="lang-opt" data-lang="ar" style="padding:7px 12px; font-size:12.5px; font-weight:700; border-radius:1px; color:var(--muted); background:transparent;">عربي</button>
+      <button class="lang-opt" data-lang="en" style="padding:7px 12px; font-size:12.5px; font-weight:700; border-radius:1px; color:var(--muted); background:transparent;">EN</button>
+    </div>
+    <button class="nav-burger" id="burgerBtn" aria-label="Ouvrir le menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
   </div>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-top">
+    <span class="name serif" style="font-size:20px; font-weight:700;"><span style="color:var(--gold-light);">MOF</span> <span style="color:var(--silver-light);">CODES</span></span>
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Fermer le menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <ul>
+    <li><a href="#services" data-i18n="nav_services">Services</a></li>
+    <li><a href="#methode" data-i18n="nav_methode">Méthode</a></li>
+    <li><a href="#realisations" data-i18n="nav_realisations">Réalisations</a></li>
+    <li><a href="#tarifs" data-i18n="nav_tarifs">Tarifs</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+  </ul>
+  <a class="btn btn-gold" href="#contact" data-i18n="btn_devis">Demander un devis</a>
+</div>
 
 <section class="hero" id="accueil">
   <div class="wrap hero-grid">
@@ -316,9 +387,9 @@
         <a class="btn btn-line" href="#realisations" data-i18n="btn_voir_real">Voir nos réalisations</a>
       </div>
       <div class="hero-stats">
-        <div><div class="n">100%</div><div class="l" data-i18n="stat_1">sites sur mesure</div></div>
-        <div><div class="n">48h</div><div class="l" data-i18n="stat_2">premier échange</div></div>
-        <div><div class="n">1</div><div class="l" data-i18n="stat_3">interlocuteur dédié</div></div>
+        <div><div class="n" dir="ltr">100%</div><div class="l" data-i18n="stat_1">sites sur mesure</div></div>
+        <div><div class="n" dir="ltr">48h</div><div class="l" data-i18n="stat_2">premier échange</div></div>
+        <div><div class="n" dir="ltr">1</div><div class="l" data-i18n="stat_3">interlocuteur dédié</div></div>
       </div>
     </div>
     <div class="hero-emblem">
@@ -374,22 +445,22 @@
     </div>
     <div class="process-grid">
       <div class="process-item">
-        <div class="num">01</div>
+        <div class="num" dir="ltr">01</div>
         <h4 data-i18n="proc1_t">Consultation</h4>
         <p data-i18n="proc1_d">Nous cernons votre activité, vos objectifs et votre public pour cadrer le projet.</p>
       </div>
       <div class="process-item">
-        <div class="num">02</div>
+        <div class="num" dir="ltr">02</div>
         <h4 data-i18n="proc2_t">Design</h4>
         <p data-i18n="proc2_d">Une direction visuelle sur mesure, alignée avec votre identité — validée avant tout développement.</p>
       </div>
       <div class="process-item">
-        <div class="num">03</div>
+        <div class="num" dir="ltr">03</div>
         <h4 data-i18n="proc3_t">Développement</h4>
         <p data-i18n="proc3_d">Construction du site, rapide et fiable, testé sur tous les écrans avant livraison.</p>
       </div>
       <div class="process-item">
-        <div class="num">04</div>
+        <div class="num" dir="ltr">04</div>
         <h4 data-i18n="proc4_t">Livraison &amp; suivi</h4>
         <p data-i18n="proc4_d">Mise en ligne accompagnée, avec un support disponible pour les premières semaines.</p>
       </div>
@@ -404,6 +475,7 @@
       <h2 data-i18n="real_h2">Quatre directions, une exigence.</h2>
       <p data-i18n="real_p">Chaque secteur a son langage visuel. Voici quatre univers que nous savons construire — adaptés à votre marque.</p>
     </div>
+    <div id="realisationsContainer">
     <div class="work-grid" id="workGrid">
       <div class="work-card">
         <div class="work-chrome"><span></span><span></span><span></span></div>
@@ -462,6 +534,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
@@ -470,12 +543,12 @@
     <div class="section-head">
       <div class="tag" data-i18n="tarifs_tag">Investissement</div>
       <h2 data-i18n="tarifs_h2">Un tarif pour chaque étape de croissance.</h2>
-      <p data-i18n="tarifs_p">Trois formules de départ — chaque projet reste discuté et ajusté à vos besoins réels.</p>
+      <p data-i18n="tarifs_p">Cinq formules de départ — chaque projet reste discuté et ajusté à vos besoins réels.</p>
     </div>
     <div class="pricing-grid">
       <div class="price-card">
         <h3 data-i18n="p1_t">Essentiel</h3>
-        <div class="price">25 000 DA <small data-i18n="from">à partir de</small></div>
+        <div class="price"><span dir="ltr">25 000 DA</span> <small data-i18n="from">à partir de</small></div>
         <div class="desc" data-i18n="p1_d">Pour démarrer avec une présence en ligne soignée.</div>
         <ul>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p1_li1">Site vitrine jusqu'à 5 pages</span></li>
@@ -486,9 +559,22 @@
         <a class="btn btn-line" href="#contact" style="justify-content:center;" data-i18n="btn_devis">Demander un devis</a>
       </div>
 
+      <div class="price-card">
+        <h3 data-i18n="p1b_t">Professionnel</h3>
+        <div class="price"><span dir="ltr">40 000 DA</span> <small data-i18n="from">à partir de</small></div>
+        <div class="desc" data-i18n="p1b_d">Pour une présence plus complète, avec plus de contenu et de pages.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p1b_li1">Site jusqu'à 8 pages</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p1b_li2">Blog ou actualités intégrés</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p1b_li3">Optimisation référencement (SEO)</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p1b_li4">2 semaines de support</span></li>
+        </ul>
+        <a class="btn btn-line" href="#contact" style="justify-content:center;" data-i18n="btn_devis">Demander un devis</a>
+      </div>
+
       <div class="price-card featured" data-badge="Le plus choisi">
         <h3 data-i18n="p2_t">Signature</h3>
-        <div class="price">65 000 DA <small data-i18n="from">à partir de</small></div>
+        <div class="price"><span dir="ltr">65 000 DA</span> <small data-i18n="from">à partir de</small></div>
         <div class="desc" data-i18n="p2_d">Notre formule la plus complète pour convertir vos visiteurs.</div>
         <ul>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p2_li1">Site jusqu'à 10 pages</span></li>
@@ -509,6 +595,19 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p3_li3">Accompagnement long terme</span></li>
         </ul>
         <a class="btn btn-line" href="#contact" style="justify-content:center;" data-i18n="btn_decrire">Nous décrire le projet</a>
+      </div>
+
+      <div class="price-card">
+        <h3 data-i18n="p4_t">E-commerce</h3>
+        <div class="price"><span dir="ltr">90 000 DA</span> <small data-i18n="from">à partir de</small></div>
+        <div class="desc" data-i18n="p4_d">Une boutique en ligne dédiée, prête à encaisser vos premières commandes.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p4_li1">Catalogue produits illimité</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p4_li2">Panier et paiement intégrés</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p4_li3">Gestion des stocks</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="p4_li4">2 mois de support inclus</span></li>
+        </ul>
+        <a class="btn btn-line" href="#contact" style="justify-content:center;" data-i18n="btn_devis">Demander un devis</a>
       </div>
     </div>
   </div>
@@ -669,7 +768,7 @@ const translations = {
 
   tarifs_tag: { fr:"Investissement", ar:"الاستثمار", en:"Investment" },
   tarifs_h2: { fr:"Un tarif pour chaque étape de croissance.", ar:"سعر لكل مرحلة نمو.", en:"A price for every stage of growth." },
-  tarifs_p: { fr:"Trois formules de départ — chaque projet reste discuté et ajusté à vos besoins réels.", ar:"ثلاث باقات انطلاق — كل مشروع يبقى قابلا للنقاش والتعديل حسب احتياجك الفعلي.", en:"Three starting packages — every project remains open to discussion and adjusted to your real needs." },
+  tarifs_p: { fr:"Cinq formules de départ — chaque projet reste discuté et ajusté à vos besoins réels.", ar:"خمس باقات انطلاق — كل مشروع يبقى قابلا للنقاش والتعديل حسب احتياجك الفعلي.", en:"Five starting packages — every project remains open to discussion and adjusted to your real needs." },
 
   p1_t: { fr:"Essentiel", ar:"أساسي", en:"Essential" },
   from: { fr:"à partir de", ar:"بداية من", en:"starting at" },
@@ -678,6 +777,13 @@ const translations = {
   p1_li2: { fr:"Design adapté mobile", ar:"تصميم متجاوب مع الهاتف", en:"Mobile-responsive design" },
   p1_li3: { fr:"Formulaire de contact", ar:"نموذج تواصل", en:"Contact form" },
   p1_li4: { fr:"Mise en ligne incluse", ar:"نشر الموقع أونلاين مشمول", en:"Launch included" },
+
+  p1b_t: { fr:"Professionnel", ar:"المحترف", en:"Professional" },
+  p1b_d: { fr:"Pour une présence plus complète, avec plus de contenu et de pages.", ar:"لحضور أشمل، بمزيد من الصفحات والمحتوى.", en:"For a more complete presence, with more content and pages." },
+  p1b_li1: { fr:"Site jusqu'à 8 pages", ar:"موقع حتى 8 صفحات", en:"Site up to 8 pages" },
+  p1b_li2: { fr:"Blog ou actualités intégrés", ar:"مدونة أو قسم أخبار مدمج", en:"Integrated blog or news section" },
+  p1b_li3: { fr:"Optimisation référencement (SEO)", ar:"تحسين لمحركات البحث (SEO)", en:"Search engine optimization (SEO)" },
+  p1b_li4: { fr:"2 semaines de support", ar:"أسبوعين دعم", en:"2 weeks of support" },
 
   p2_t: { fr:"Signature", ar:"سيغنتشر", en:"Signature" },
   p2_d: { fr:"Notre formule la plus complète pour convertir vos visiteurs.", ar:"باقتنا الأكثر اكتمالا لتحويل زوارك إلى عملاء.", en:"Our most complete package to convert your visitors." },
@@ -694,6 +800,13 @@ const translations = {
   p3_li2: { fr:"Fonctionnalités avancées", ar:"وظائف متقدمة", en:"Advanced features" },
   p3_li3: { fr:"Accompagnement long terme", ar:"مرافقة على المدى الطويل", en:"Long-term support" },
   btn_decrire: { fr:"Nous décrire le projet", ar:"صف لنا مشروعك", en:"Describe Your Project" },
+
+  p4_t: { fr:"E-commerce", ar:"متجر إلكتروني", en:"E-commerce" },
+  p4_d: { fr:"Une boutique en ligne dédiée, prête à encaisser vos premières commandes.", ar:"متجر إلكتروني مخصص، جاهز لاستقبال أول طلباتك.", en:"A dedicated online store, ready to take your first orders." },
+  p4_li1: { fr:"Catalogue produits illimité", ar:"كتالوج منتجات غير محدود", en:"Unlimited product catalog" },
+  p4_li2: { fr:"Panier et paiement intégrés", ar:"سلة ودفع مدمجين", en:"Integrated cart and checkout" },
+  p4_li3: { fr:"Gestion des stocks", ar:"إدارة المخزون", en:"Inventory management" },
+  p4_li4: { fr:"2 mois de support inclus", ar:"شهرين دعم مشمولين", en:"2 months of support included" },
 
   contact_tag: { fr:"Parlons de votre projet", ar:"لنتحدث عن مشروعك", en:"Let's talk about your project" },
   contact_h2: { fr:"Demandez votre devis.", ar:"اطلب عرض سعرك.", en:"Request your quote." },
@@ -717,7 +830,8 @@ const translations = {
   btn_envoyer: { fr:"Envoyer la demande", ar:"أرسل الطلب", en:"Send Request" },
 
   footer_tag: { fr:"Création de sites web sur mesure", ar:"تصميم مواقع ويب حسب الطلب", en:"Bespoke website creation" },
-  footer_copy: { fr:"© 2026 MOF CODES. Tous droits réservés.", ar:"© 2026 MOF CODES. جميع الحقوق محفوظة.", en:"© 2026 MOF CODES. All rights reserved." }
+  footer_copy: { fr:"© 2026 MOF CODES. Tous droits réservés.", ar:"© 2026 MOF CODES. جميع الحقوق محفوظة.", en:"© 2026 MOF CODES. All rights reserved." },
+  view_site: { fr:"Voir le site", ar:"شاهد الموقع", en:"View site" }
 };
 
 let currentLang = 'fr';
@@ -739,18 +853,28 @@ function applyLang(lang){
 
   document.documentElement.setAttribute('lang', lang);
   document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  document.getElementById('langToggle').textContent = lang.toUpperCase();
+  document.querySelectorAll('.lang-opt').forEach(btn => {
+    const active = btn.getAttribute('data-lang') === lang;
+    btn.style.color = active ? '#161105' : 'var(--muted)';
+    btn.style.background = active ? 'linear-gradient(135deg, var(--gold-light), var(--gold))' : 'transparent';
+  });
   currentLang = lang;
   renderWork();
 }
 
-document.getElementById('langToggle').addEventListener('click', () => {
-  const next = langCycle[(langCycle.indexOf(currentLang) + 1) % langCycle.length];
-  applyLang(next);
+let workItems = null;
+
+document.querySelectorAll('.lang-opt').forEach(btn => {
+  btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang')));
 });
+applyLang('fr');
+
+const mobileMenu = document.getElementById('mobileMenu');
+document.getElementById('burgerBtn').addEventListener('click', () => mobileMenu.classList.add('open'));
+document.getElementById('mobileMenuClose').addEventListener('click', () => mobileMenu.classList.remove('open'));
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
 /* ---------- Dynamic portfolio (Réalisations) via CMS ---------- */
-let workItems = null;
 
 async function loadWork(){
   try {
@@ -778,6 +902,9 @@ function renderWork(){
       : `<div class="work-mock mock-resto"></div>`;
     const linkOpen = it.link ? `<a href="${it.link}" target="_blank" rel="noopener" style="display:block;">` : '';
     const linkClose = it.link ? `</a>` : '';
+    const viewBtn = it.link
+      ? `<a href="${it.link}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; margin-top:12px; font-size:13px; font-weight:700; color: var(--gold-light);">${translations.view_site[currentLang]} →</a>`
+      : '';
     return `<div class="work-card">
       <div class="work-chrome"><span></span><span></span><span></span></div>
       ${linkOpen}${img}${linkClose}
@@ -785,6 +912,7 @@ function renderWork(){
         <div class="cat">${cat}</div>
         <h3>${title}</h3>
         <p>${desc}</p>
+        ${viewBtn}
       </div>
     </div>`;
   }).join('');
